@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IPT Exam: Lessons 1 to 7</title>
+<style>
+:root{--bg:#eef2f6;--card:#fff;--ink:#14233a;--mut:#5b6b80;--ac:#0e7c86;--on:#fff;--ok:#17803d;--bad:#b42318;--ln:#d3dce6;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1824;--card:#18263a;--ink:#e6edf6;--mut:#9fb0c5;--ac:#4fc3cc;--on:#08202a;--ok:#4ade80;--bad:#f87171;--ln:#2b3c55;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1824;--card:#18263a;--ink:#e6edf6;--mut:#9fb0c5;--ac:#4fc3cc;--on:#08202a;--ok:#4ade80;--bad:#f87171;--ln:#2b3c55;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+main{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+h1{font:700 2rem/1.15 Georgia,serif;margin:.4em 0 .3em}
+h2{font:700 1.25rem Georgia,serif;margin:0 0 4px}
+.mut,.in{color:var(--mut);margin:0 0 14px}
+.sets{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:24px}
+button{font:inherit;cursor:pointer;border:0;border-radius:8px;padding:10px 18px;background:var(--ac);color:var(--on);font-weight:600}
+button.alt{background:transparent;color:var(--ink);border:1px solid var(--ln)}
+.set{background:var(--card);border:2px solid var(--ln);border-radius:12px;padding:20px}
+.set h2{font-size:1.6rem}
+.set ul{padding-left:18px;margin:10px 0 16px}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--card);border-bottom:1px solid var(--ln);display:flex;gap:14px;align-items:center;justify-content:space-between;padding:10px 16px;flex-wrap:wrap}
+.bar b{font-variant-numeric:tabular-nums}
+section{margin-top:28px}
+.q{background:var(--card);border:1px solid var(--ln);border-left:5px solid var(--ln);border-radius:10px;padding:14px 16px;margin-bottom:12px}
+.q p{margin:0 0 8px;font-family:Georgia,serif;font-size:1.05rem}
+.q label{display:flex;gap:10px;align-items:flex-start;padding:6px 4px;cursor:pointer}
+.q input[type=radio]{margin-top:6px}
+.q input[type=text]{display:block;width:100%;margin:6px 0;padding:9px 10px;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--ln);border-radius:6px}
+.fb{margin-top:8px;font-size:.95rem}
+.q.ok{border-left-color:var(--ok)}.q.bad{border-left-color:var(--bad)}.q.part{border-left-color:#d4a017}
+.ok .fb{color:var(--ok)}.bad .fb,.part .fb{color:var(--bad)}
+.res{background:var(--card);border:2px solid var(--ac);border-radius:12px;padding:18px;margin-top:18px}
+.res .big{font:700 2.4rem Georgia,serif}
+.res table{border-collapse:collapse;margin-top:8px}.res td{padding:3px 18px 3px 0}
+.hide{display:none}
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style></head><body>
+<div id="home"><main>
+<h1>Integrative Programming and Technologies</h1>
+<p class="mut">Reviewer exam covering Lessons 1 to 7. Sets A and B have 50 items (60 minutes). Sets C and D are written-answer drills with 20 items (24 minutes). Questions are drawn from your lesson slides.</p>
+<div class="sets">
+<div class="set"><h2>Set A</h2><ul><li>20 Multiple Choice</li><li>10 True or False</li><li>10 Identification</li><li>10 Enumeration</li></ul><button onclick="start('A')">Start Set A</button></div>
+<div class="set"><h2>Set B</h2><ul><li>20 Multiple Choice</li><li>10 True or False</li><li>10 Identification</li><li>10 Enumeration</li></ul><button onclick="start('B')">Start Set B</button></div>
+<div class="set"><h2>Set C</h2><ul><li>10 Identification</li><li>10 Enumeration</li></ul><button onclick="start('C')">Start Set C</button></div>
+<div class="set"><h2>Set D</h2><ul><li>10 Identification</li><li>10 Enumeration</li></ul><button onclick="start('D')">Start Set D</button></div>
+</div></main></div>
+<div id="exam" class="hide">
+<div class="bar"><b id="ttl"></b><span>Answered <b id="cnt">0</b>/<span id="tot">50</span></span><span>Time <b id="clk">60:00</b></span><button id="sub" onclick="submit()">Submit exam</button></div>
+<main><div id="res"></div><div id="qs"></div></main></div>
+<script>
+const D={
+A:{
+mc:[
+["Combining various programming languages, systems, and technologies into cohesive applications is called:","Integrative programming","Declarative programming","Cloud computing","Object-oriented design"],
+["Which is NOT a type of system integration?","Diagonal integration","Vertical integration","Horizontal integration","Point-to-point integration"],
+["SOAP messages are based on which format?","XML","JSON","CSS","YAML"],
+["Which data format is most commonly used with REST APIs?","JSON","XML","HTML","SQL"],
+["Google Maps API is an example of which type of API?","Public API","Private API","Partner API","Internal API"],
+["Which is commonly used by APIs to ensure secure access?","OAuth or API keys","CSS selectors","Language bindings","Connection pooling"],
+["Which of these is a SQL (relational) database?","PostgreSQL","MongoDB","Cassandra","Redis"],
+["Which MongoDB method inserts a single new document?","insertOne()","find()","updateOne()","deleteOne()"],
+["Which SQL command retrieves records?","SELECT","INSERT INTO","UPDATE","DELETE FROM"],
+["Java Native Interface (JNI) lets Java applications interact with code written in:","C or C++","Ruby","PHP","SQL"],
+["Python CTypes allows Python to:","Call functions in shared C libraries","Generate HTML pages","Host virtual servers","Store object data"],
+["SWIG is a tool that connects programs written in:","C and C++ with Python, Perl, and Java","HTML with CSS","SQL with NoSQL","Node.js with PHP"],
+["HTML stands for:","Hyper Text Markup Language","High Text Machine Language","Hyperlink and Text Markup Logic","Home Tool Markup Language"],
+["Which HTML tag defines a hyperlink?","&lt;a&gt;","&lt;link&gt;","&lt;href&gt;","&lt;url&gt;"],
+["Which attribute gives alternate text for an image that cannot be displayed?","alt","src","title","style"],
+["Which is a JavaScript runtime used to write server-side code?","Node.js","PHP","CSS","HTML"],
+["In MVC, which component manages data and business logic?","Model","View","Controller","Router"],
+["Which AWS service provides virtual servers?","EC2","S3","RDS","IAM"],
+["Azure Blob Storage is best described as:","Object storage for unstructured data","A managed SQL service","A container orchestrator","A serverless data warehouse"],
+["Which GCP service is a serverless data warehouse?","BigQuery","Compute Engine","Cloud Storage","Kubernetes Engine"]],
+tf:[
+["SOAP is simpler and more flexible than REST.",0],
+["JSON is more commonly used in REST APIs than in SOAP.",1],
+["NoSQL databases store data only in fixed-schema tables.",0],
+["CRUD stands for Create, Read, Update, Delete.",1],
+["The &lt;br&gt; tag is an empty element with no closing tag.",1],
+["HTML tags are case sensitive.",0],
+["The frontend is mainly responsible for database operations.",0],
+["With cloud computing, you generally pay only for the resources you use.",1],
+["Private APIs are shared with business partners to enable collaboration.",0],
+["Using cloud-specific SDKs can introduce vendor lock-in.",1]],
+id:[
+["The type of API that is open to external users and developers.","Public API/Public"],
+["The protocol that relies on XML and is known for strict standards.","SOAP/Simple Object Access Protocol"],
+["The tool that connects C and C++ programs with Python, Perl, and Java.","SWIG/Simplified Wrapper and Interface Generator"],
+["The HTML tag that defines the most important (largest) heading.","h1"],
+["The layer in full-stack architecture that stores and manages data.","Database layer/Database"],
+["The MVC component that processes user input and updates the model.","Controller"],
+["The AWS scalable object storage service.","S3/Simple Storage Service"],
+["The attribute of the &lt;a&gt; tag that specifies the link destination.","href"],
+["The cloud integration approach where a file upload automatically starts a process in another service.","Event-driven integration/Event-driven/Event driven"],
+["The SQL command used to remove rows from a table.","DELETE FROM/DELETE"]],
+en:[
+["Enumerate the four types of system integration.","Enterprise Application Integration/EAI|Point-to-point integration/Point-to-point|Vertical integration/Vertical|Horizontal integration/Horizontal"],
+["Enumerate the three key aspects of integration.","System integration/System|Data integration/Data|Process integration/Process"],
+["Enumerate the three types of APIs.","Public|Private|Partner"],
+["Enumerate the four CRUD operations.","Create|Read|Update|Delete"],
+["Enumerate the three parts of a SOAP message.","Envelope|Header|Body"],
+["Enumerate the three frontend technologies.","HTML|CSS|JavaScript/JS"],
+["Enumerate the three layers of a full-stack application.","Client layer/Client/Frontend|Server layer/Server/Backend|Database layer/Database"],
+["Enumerate the three top cloud platforms.","AWS/Amazon Web Services|Azure/Microsoft Azure|GCP/Google Cloud Platform"],
+["Enumerate the three components of MVC.","Model|View|Controller"],
+["Enumerate the three key considerations for cloud integration.","Cost management/Cost|Security|Scalability"]]},
+B:{
+mc:[
+["Combining data from multiple sources for consistent data flow across systems is:","Data integration","System integration","Process integration","Vertical integration"],
+["Which allows applications on different platforms to communicate over the internet using standard protocols?","Web services","Language bindings","Compilers","Device drivers"],
+["Which is NOT an HTTP method listed for REST?","FETCH","GET","POST","DELETE"],
+["Which data format is more verbose, more rigid, and often used in SOAP?","XML","JSON","CSV","Markdown"],
+["Which API type is internal to an organization to improve internal processes?","Private API","Public API","Partner API","Open API"],
+["JSON stands for:","JavaScript Object Notation","Java Standard Object Naming","JavaScript Online Network","Joined Server Object Notation"],
+["Which of these is a NoSQL database?","Redis","MySQL","SQL Server","PostgreSQL"],
+["Which is a recommended way to protect database credentials?","Use environment variables and secure connections","Hardcode them in the page","Share them in the frontend","Use short passwords"],
+["Which MongoDB method removes a single document?","deleteOne()","insertOne()","findOne()","updateOne()"],
+["Python and JavaScript are often combined so that:","Python handles the backend and JavaScript the frontend","Python styles pages","JavaScript manages the database only","Python replaces HTML"],
+["Which integrated framework supports both C# and VB.NET?",".NET","JVM","ZeroMQ","SWIG"],
+["ZeroMQ is best described as:","A high-performance messaging library","A wrapper generator","A markup language","A cloud database"],
+["The &lt;!DOCTYPE html&gt; declaration:","Defines the document as HTML5","Creates the page title","Starts the body","Links a stylesheet"],
+["Which tag starts an unordered list?","&lt;ul&gt;","&lt;ol&gt;","&lt;dl&gt;","&lt;li&gt;"],
+["Which tag defines a table header cell?","&lt;th&gt;","&lt;td&gt;","&lt;tr&gt;","&lt;table&gt;"],
+["Which attribute shows a tooltip when the mouse hovers over an element?","title","alt","lang","style"],
+["Which of these is a server-side scripting language for web development?","PHP","CSS","HTML","JSON"],
+["Validating and sanitizing user input helps prevent:","SQL injection and XSS","Slow networks","Vendor lock-in","Version conflicts"],
+["AWS RDS is used to:","Manage relational databases","Host virtual servers","Store objects","Monitor performance"],
+["Which cloud platform is noted for its focus on machine learning and data analytics?","Google Cloud Platform","Microsoft Azure","Amazon Web Services","Oracle Cloud"]],
+tf:[
+["SOAP provides built-in error handling and security but can be slower than REST.",1],
+["Cross-language interoperability always reduces project complexity.",0],
+["NoSQL databases offer greater flexibility and scalability for big data applications.",1],
+["The SQL UPDATE command is used to remove records.",0],
+["The content of the &lt;title&gt; element is shown in the browser tab.",1],
+["Single quotes can never be used around HTML attribute values.",0],
+["Enforcing business rules is a backend responsibility.",1],
+["AWS provides over 200 services.",1],
+["Containerization with Docker or Kubernetes can help maintain flexibility across cloud platforms.",1],
+["Relative URLs are more likely to break when you change your domain than absolute URLs.",0]],
+id:[
+["What does REST stand for?","Representational State Transfer"],
+["The kind of database that uses collections or key-value pairs instead of tables.","NoSQL/Non-relational"],
+["The HTML tag that defines a paragraph.","p"],
+["The attribute placed in the &lt;html&gt; tag to declare the page language.","lang"],
+["The MongoDB method used to query documents (one word, without parentheses).","find/findOne"],
+["What does JNI stand for?","Java Native Interface"],
+["The JavaScript runtime used for building scalable server-side applications.","Node.js/Node"],
+["The MVC component that displays information to the user.","View"],
+["The AWS service used to control access to resources.","IAM/Identity and Access Management"],
+["Microsoft’s cloud platform.","Azure/Microsoft Azure"]],
+en:[
+["Enumerate the four key advantages of cloud computing.","Scalability|Cost effectiveness/Cost-effectiveness|Global reach|Reliability"],
+["Enumerate the four HTTP methods the frontend uses to talk to the backend.","GET|POST|PUT|DELETE"],
+["Enumerate the three key AWS services.","EC2/Elastic Compute Cloud|S3/Simple Storage Service|RDS/Relational Database Service"],
+["Enumerate the three key Azure services.","Virtual Machines/VM|Blob Storage/Azure Blob Storage|Azure SQL Database/SQL Database"],
+["Enumerate the three key GCP services.","Compute Engine|Cloud Storage|BigQuery"],
+["Enumerate the three common cloud integration approaches.","REST APIs/REST|SDKs/SDK|Event-driven integration/Event-driven"],
+["Enumerate the three challenges in integrative programming.","Complexity|Security risks/Security|Compatibility issues/Compatibility"],
+["Enumerate the three NoSQL database examples given in the lesson.","MongoDB|Cassandra|Redis"],
+["Enumerate the three backend responsibilities.","Processing requests/Request processing|Database operations|Business logic"],
+["Enumerate the three kinds of HTML lists.","Unordered list/Unordered|Ordered list/Ordered|Description list/Description"]]},
+C:{
+id:[
+["What does XML stand for?","eXtensible Markup Language/Extensible Markup Language"],
+["The type of API that is shared with business partners to enable collaboration.","Partner API/Partner"],
+["The architectural style that uses standard HTTP methods and commonly exchanges JSON.","REST/Representational State Transfer"],
+["The SQL command used to add new rows to a table.","INSERT INTO/INSERT"],
+["The MongoDB method used to change the fields of a single document.","updateOne"],
+["The Python library that provides C-compatible data types for calling shared C libraries.","CTypes/Python CTypes"],
+["The HTML tag that defines a table row.","tr"],
+["The attribute of the &lt;img&gt; tag that specifies the path of the image file.","src"],
+["The architectural pattern that separates an application into Model, View, and Controller.","MVC/Model-View-Controller"],
+["The Google Cloud service for container orchestration (give the full name or acronym).","Google Kubernetes Engine/GKE/Kubernetes Engine"]],
+en:[
+["Enumerate the three SQL database examples given in the lesson.","MySQL|PostgreSQL|SQL Server"],
+["Enumerate the five advantages of web services.","Interoperability|Deployability|Usability|Reusability|Cost"],
+["Enumerate the three API integration techniques.","Direct API calls/Direct API call|Authentication|Data transfer"],
+["Enumerate the three purposes of integrative programming.","Enhances functionality/Functionality|Improves scalability/Scalability|Flexibility"],
+["Enumerate the four SQL commands used for CRUD.","INSERT INTO/INSERT|SELECT|UPDATE|DELETE FROM/DELETE"],
+["Enumerate the three key cloud services for integration.","Compute services/Compute|Storage and databases/Storage|APIs and middleware/APIs"],
+["Enumerate four web browsers named in the lesson.","Chrome|Edge|Firefox|Safari"],
+["Enumerate the three key considerations for full-stack development.","Security|Scalability|Performance"],
+["Enumerate the three cloud monitoring tools named in the lesson.","AWS CloudWatch/CloudWatch|Azure Monitor|GCP Stackdriver/Stackdriver"],
+["Enumerate the three main tags of the basic HTML document structure.","html|head|body"]]},
+D:{
+id:[
+["What does API stand for?","Application Programming Interface"],
+["What does HTTP stand for?","HyperText Transfer Protocol/Hypertext Transfer Protocol"],
+["The high-performance messaging library used for language-agnostic communication across distributed systems.","ZeroMQ"],
+["The managed relational database service of Microsoft Azure.","Azure SQL Database/SQL Database"],
+["The HTML tag used to embed an image.","img"],
+["The paradigm that focuses on what the program should accomplish without specifying how.","Declarative/Declarative paradigm"],
+["The paradigm that organizes software design around data or objects rather than functions and logic.","Object-Oriented/Object Oriented/OOP"],
+["The process of ensuring applications can communicate with and manage data in SQL and NoSQL databases.","Database integration"],
+["The AWS tool used to keep track of performance.","CloudWatch/AWS CloudWatch"],
+["The HTML tag that is the container for all visible page content.","body"]],
+en:[
+["Enumerate the seven key programming paradigms.","Imperative|Procedural|Object-Oriented/Object Oriented|Declarative|Functional|Logical|Mathematical"],
+["Enumerate the two frontend responsibilities.","Rendering content/Rendering|User interaction/Interaction"],
+["Enumerate the three challenges in cloud integration.","Data security/Security|Network latency/Latency|Compatibility"],
+["Enumerate the four MongoDB single-document CRUD methods.","insertOne|findOne|updateOne|deleteOne"],
+["Enumerate the four cross-language tools and libraries named in the lesson.","JNI/Java Native Interface|CTypes/Python CTypes|ZeroMQ|SWIG"],
+["Enumerate the four attributes shown for the &lt;img&gt; tag.","src|alt|width|height"],
+["Enumerate the three parts of an HTML element.","Start tag|Content|End tag"],
+["Enumerate the three object storage services across AWS, Azure, and GCP.","S3/AWS S3|Azure Blob Storage/Blob Storage|Cloud Storage/Google Cloud Storage"],
+["Enumerate the three identity and access services across AWS, Azure, and GCP.","AWS IAM/IAM|Azure Active Directory|GCP IAM/GCP Identity and Access Management"],
+["Enumerate the three compute services across AWS, Azure, and GCP.","EC2/Elastic Compute Cloud|Virtual Machines/Azure VM/VM|Compute Engine"]]}};
+const P=[["mc","Part I: Multiple Choice","Choose the best answer."],["tf","Part II: True or False","Select True if the statement is correct, otherwise False."],["id","Part III: Identification","Type the correct answer. Spelling counts; capitalization does not."],["en","Part IV: Enumeration","Fill in every box. Order does not matter. Each item earns an equal share of one point."]];
+const $=s=>document.querySelector(s),n=s=>s.toLowerCase().replace(/[^a-z0-9]/g,"");
+const sh=a=>a.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+let M=[],T,left,S;
+function ld(){try{return 0}catch(e){}}
+function start(k){
+ S=k;M=[];let h="",pn=0;
+ P.filter(p=>D[k][p[0]]).forEach(([t,title,ins])=>{
+  h+=`<section><h2>${"Part "+"I II III IV".split(" ")[pn++]+title.slice(title.indexOf(":"))}</h2><p class="in">${ins}</p>`;
+  D[k][t].forEach(q=>{
+   const i=M.length;let o=null,b="";
+   if(t=="mc"){o=sh(q.slice(1));b=o.map((x,j)=>`<label><input type="radio" name="q${i}" value="${j}">${x}</label>`).join("")}
+   else if(t=="tf")b=["True","False"].map((x,j)=>`<label><input type="radio" name="q${i}" value="${j}">${x}</label>`).join("");
+   else if(t=="id")b=`<input type="text" autocomplete="off" aria-label="Answer" placeholder="Your answer">`;
+   else b=q[1].split("|").map((_,j)=>`<input type="text" autocomplete="off" aria-label="Item ${j+1}" placeholder="Item ${j+1}">`).join("");
+   M.push({t,q,o});
+   h+=`<div class="q" id="q${i}"><p><b>${i+1}.</b> ${q[0]}</p>${b}<div class="fb"></div></div>`});
+  h+="</section>"});
+ $("#qs").innerHTML=h;$("#res").innerHTML="";$("#ttl").textContent="Set "+k;$("#tot").textContent=M.length;
+ const s=$("#sub");s.textContent="Submit exam";s.disabled=false;s.className="";
+ $("#home").classList.add("hide");$("#exam").classList.remove("hide");
+ window.scrollTo(0,0);left=M.length*72;tick();clearInterval(T);T=setInterval(tick,1000);cnt();
+}
+function tick(){
+ const m=Math.floor(left/60),s=left%60;$("#clk").textContent=m+":"+String(s).padStart(2,"0");
+ if(left--<=0){submit(1)}
+}
+function cnt(){
+ let c=0;M.forEach((m,i)=>{const e=$("#q"+i);if(m.t=="mc"||m.t=="tf"?e.querySelector("input:checked"):[...e.querySelectorAll("input")].some(x=>x.value.trim()))c++});
+ $("#cnt").textContent=c;
+}
+document.addEventListener("input",cnt);
+function submit(force){
+ const s=$("#sub");
+ if(!force&&!s.dataset.arm){s.dataset.arm=1;s.textContent="Click again to confirm";setTimeout(()=>{delete s.dataset.arm;if(!s.disabled)s.textContent="Submit exam"},4000);return}
+ delete s.dataset.arm;clearInterval(T);
+ const sc={mc:0,tf:0,id:0,en:0};
+ M.forEach((m,i)=>{
+  const e=$("#q"+i),f=e.querySelector(".fb");let p=0,a="";
+  if(m.t=="mc"||m.t=="tf"){
+   const c=e.querySelector("input:checked");
+   if(m.t=="mc"){p=c&&m.o[c.value]==m.q[1]?1:0;a=m.q[1]}
+   else{p=c&&c.value==(m.q[1]?0:1)?1:0;a=m.q[1]?"True":"False"}
+  }else if(m.t=="id"){
+   const v=n(e.querySelector("input").value);p=v&&m.q[1].split("/").some(x=>n(x)==v)?1:0;a=m.q[1].split("/")[0];
+  }else{
+   const it=m.q[1].split("|"),u=[...e.querySelectorAll("input")].map(x=>n(x.value)).filter(Boolean);let hit=0;
+   it.forEach(z=>{const k=z.split("/").map(n),j=u.findIndex(x=>k.includes(x));if(j>-1){u.splice(j,1);hit++}});
+   p=hit/it.length;a=it.map(z=>z.split("/")[0]).join(", ")+" ("+hit+"/"+it.length+" correct)";
+  }
+  sc[m.t]+=p;e.classList.add(p==1?"ok":p>0?"part":"bad");
+  f.innerHTML=p==1?"Correct":"Answer: <b>"+a+"</b>";
+  e.querySelectorAll("input").forEach(x=>x.disabled=true);
+ });
+ const r=x=>Math.round(x*10)/10,t=sc.mc+sc.tf+sc.id+sc.en;
+ $("#res").innerHTML=`<div class="res"><div class="big">${r(t)} / ${M.length}</div><div>${Math.round(t*100/M.length)}% for Set ${S}. Scroll down to review each answer.</div>
+ <table>${P.filter(p=>D[S][p[0]]).map(p=>`<tr><td>${p[1].split(": ")[1]}</td><td>${r(sc[p[0]])} / ${D[S][p[0]].length}</td></tr>`).join("")}</table>
+ <p><button onclick="start(S)">Retake Set ${S}</button> <button class="alt" onclick="home()">Choose another set</button></p></div>`;
+ s.textContent="Submitted";s.disabled=true;window.scrollTo(0,0);
+}
+function home(){$("#exam").classList.add("hide");$("#home").classList.remove("hide");window.scrollTo(0,0)}
+</script></body></html>
